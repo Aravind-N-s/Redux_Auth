@@ -12,7 +12,7 @@ export const startAddUser = () => {
         if (response.data.hasOwnProperty("errors")) {
           alert(response.data.message);
         } else {
-          dispatch(addUser(response.data));
+          dispatch(addUser(response.data.responseData));
         }
       })
       .catch(err => {
@@ -23,7 +23,8 @@ export const startAddUser = () => {
 
 export const addUser = user => {
   return { 
-    type: "SET_USER"
+    type: "SET_USER",
+    payload: user
   };
 };
 

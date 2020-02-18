@@ -1,39 +1,34 @@
 import React, { Fragment, Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { resetUser } from "../Login/redux/action";
-class HomePageContainer extends Component {
-  handleUserLogout = props => {
-    const { dispatch } = this.props;
+const HomePageContainer = () => {
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch;
+  const history = useHistory;
+  const handleUserLogout = () => {
     const logout = window.confirm("Do You Want To Logout");
     if (logout) {
       localStorage.removeItem("userAuthToken");
       dispatch(resetUser());
-      this.props.history.push("/url");
+      history.push("/users/login");
     }
   };
-  render() {
-    return (
-      <Fragment>
-        <div
-          className="container"
-          style={{ display: "grid", padding: "50px", gridGap: "10px" }}
-        >
-          <div className="row">
-            <div className="col-sm-3" style={{ border: "1" }}>
-              Hello
-            </div>
-            <div className="col-sm-9">Users</div>
+  return (
+    <Fragment>
+      <div
+        className="container"
+        style={{ display: "grid", padding: "50px", gridGap: "10px" }}
+      >
+        <div className="row">
+          <div className="col-sm-3" style={{ border: "1" }}>
+            Hello
           </div>
+          <div className="col-sm-9">{user.username}</div>
         </div>
-      </Fragment>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  };
+      </div>
+    </Fragment>
+  );
 };
-export default withRouter(connect(mapStateToProps)(HomePageContainer));
+
+export default HomePageContainer;

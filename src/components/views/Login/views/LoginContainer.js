@@ -1,41 +1,41 @@
-import React, { Component, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux'
 import { authAxios } from "../../../utils/axios";
 import { isValid } from "../../../utils/service";
+import {setToken} from '../../Login/redux/action'
 import Form from "./Form";
-import { connect } from "react-redux";
-import { setToken } from "../../Login/redux/action";
-class LoginContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      emailError: false,
-      passwordError: false
-    };
-  }
+function LoginContainer(props) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+    emailError: false,
+    passwordError: false
+  });
 
-  handleChange = e => {
+  const handleChange = e => {
     e.persist();
-    this.setState(() => ({ [e.target.name]: e.target.value }));
+    setState({...state, [e.target.name]: e.target.value });
   };
 
-  handleRegister = () => {
-    this.props.history.push("/users/register");
+  const handleRegister = () => {
+    history.push("/users/register");
   };
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { dispatch } = this.props;
-    const { email, password } = this.state;
-    const emailError = isValid("email", email);
-    const passwordError = isValid("fields", password);
-    this.setState({
+    const { email, password } = state;
+    const emailError = isValid("email", email || '');
+    const passwordError = isValid("fields", password || '');
+    setState({
+      ...state,
       emailError,
       passwordError
     });
     const formData = {
-      email: this.state.email,
-      password: this.state.password
+      email,
+      password
     };
     if (emailError || passwordError) return;
     authAxios
@@ -49,7 +49,7 @@ class LoginContainer extends Component {
             dispatch(setToken());
             localStorage.setItem("userAuthToken", token);
             alert("Welcome to the App");
-            this.props.history.push("/homepage");
+            history.push("/homepage");
           }
         }
       })
@@ -57,20 +57,19 @@ class LoginContainer extends Component {
         alert(err);
       });
   };
-  render() {
-    return (
-      <Fragment>
-        <div className="container" style={{padding:'10%'}}>
-          <Form
-            onHandleSubmit={this.handleSubmit}
-            onHandleChange={this.handleChange}
-            handleRegister={this.handleRegister}
-            data={this.state}
-          />
-        </div>
-      </Fragment>
-    );
-  }
+  console.log({state},'state')
+  return (
+    <Fragment>
+      <div className="container" style={{ padding: "10%" }}>
+        <Form
+          onHandleSubmit={handleSubmit}
+          onHandleChange={handleChange}
+          handleRegister={handleRegister}
+          data={state}
+        />
+      </div>
+    </Fragment>
+  );
 }
 
-export default connect()(LoginContainer);
+export default LoginContainer;
