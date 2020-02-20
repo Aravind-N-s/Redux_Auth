@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { authAxios } from "../../utils/axios";
 import Form from "./Form";
+import {Header} from '../../utils/header'
 import { isValid } from "../../utils/service";
 import { useHistory } from "react-router-dom";
 const RegisterContainer = () => {
@@ -53,6 +54,11 @@ const RegisterContainer = () => {
   };
   return (
     <Fragment>
+       <Header
+          name={"Register"}
+          handleBlur={() => this.props.history.push("/users/login")}
+          context={this}
+        />
       <div className="container" style={{ padding: "10%" }}>
         <Form
           onHandleSubmit={handleSubmit}

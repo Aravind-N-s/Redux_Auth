@@ -1,6 +1,7 @@
 import { authAxios } from "../../../../utils/axios";
 
 export const startAddUser = () => {
+  console.log('called')
   return dispatch => {
     authAxios
       .get("/user/account", {

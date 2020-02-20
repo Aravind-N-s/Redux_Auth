@@ -3,7 +3,6 @@ import React from "react";
 const Form = props => {
   const { onHandleChange, onHandleSubmit, data } = props;
   const { email, password, emailError, passwordError } = data;
-  console.log(data);
   return (
     <form>
       <div className="form-group">

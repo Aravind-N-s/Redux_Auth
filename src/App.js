@@ -1,11 +1,13 @@
 import React, { useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route, useHistory } from "react-router-dom";
+import { startAddUser } from "./components/views/Login/redux/action";
 import LoginContainer from "./components/views/Login/views/LoginContainer";
 import RegisterContainer from "./components/views/Register/RegisterContainer";
 import HomePageContainer from "./components/views/Homepage/HomePageContainer";
 function App(props){
   const {token} = props 
+  const dispatch = useDispatch()
   const history = useHistory()
   const user = useSelector(state => state.user)
   useEffect(() => {
@@ -14,7 +16,7 @@ function App(props){
     } else {
       history.push("/users/login");
     }
-  }, []);
+  }, [token]);
   return (
     <Fragment>
       {user.loggedIn ? (

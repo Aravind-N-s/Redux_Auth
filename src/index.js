@@ -9,6 +9,7 @@ import { startAddUser } from "./components/views/Login/redux/action";
 const store = configureStore();
 
 if (localStorage.getItem("userAuthToken")) {
+  console.log('dataa')
   store.dispatch(startAddUser());
 }
 const jsx = (

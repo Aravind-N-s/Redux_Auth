@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { authAxios } from "../../../utils/axios";
 import { isValid } from "../../../utils/service";
-import {setToken} from '../../Login/redux/action'
+import { Header } from "../../../utils/header";
+import {setToken, startAddUser} from '../../Login/redux/action'
 import Form from "./Form";
 function LoginContainer(props) {
   const history = useHistory();
@@ -41,25 +42,31 @@ function LoginContainer(props) {
     authAxios
       .post(`/user/login`, formData)
       .then(response => {
+        console.log({response})
         if (response.data.errors) {
           alert(response.data.errors);
         } else {
           const token = response.data.token;
           if (token) {
-            dispatch(setToken());
             localStorage.setItem("userAuthToken", token);
+            dispatch(setToken());
+            dispatch(startAddUser());
             alert("Welcome to the App");
             history.push("/homepage");
           }
         }
       })
       .catch(err => {
+        console.log({err},'err')
         alert(err);
       });
   };
-  console.log({state},'state')
   return (
     <Fragment>
+      <Header
+          name={"Login"}
+          handleBlur={handleRegister}
+        />
       <div className="container" style={{ padding: "10%" }}>
         <Form
           onHandleSubmit={handleSubmit}

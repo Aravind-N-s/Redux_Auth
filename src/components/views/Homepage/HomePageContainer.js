@@ -1,21 +1,27 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment, useEffect } from "react";
+import { Header } from "../../utils/header";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { resetUser } from "../Login/redux/action";
+import { startAddUser,resetUser } from "../Login/redux/action";
 const HomePageContainer = () => {
   const user = useSelector(state => state.user);
-  const dispatch = useDispatch;
-  const history = useHistory;
+  const dispatch = useDispatch();
+  const history = useHistory();
+  
   const handleUserLogout = () => {
     const logout = window.confirm("Do You Want To Logout");
     if (logout) {
-      localStorage.removeItem("userAuthToken");
       dispatch(resetUser());
       history.push("/users/login");
+      localStorage.removeItem("userAuthToken");
     }
   };
   return (
     <Fragment>
+      <Header
+          logout={handleUserLogout}
+          name={"HomePage"}
+        />
       <div
         className="container"
         style={{ display: "grid", padding: "50px", gridGap: "10px" }}
