@@ -19,11 +19,11 @@ const Form = props => {
         />
         {emailError ? (
           <h4 className="form-text text-danger">
-            Please check email format
+            Please Check The Email Format
           </h4>
         ) : (
           <small className="form-text text-muted">
-            We'll never share your email with anyone else.
+            We'll Never Share Your Email With Anyone Else.
           </small>
         )}
       </div>
@@ -40,7 +40,7 @@ const Form = props => {
         />
         {passwordError ? (
           <h4 className="form-text text-danger">
-            password cannot be empty
+            Password Cannot Be Empty
           </h4>
         ) : (
           null
